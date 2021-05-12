@@ -7,3 +7,4 @@ for file in "jsonFiles"/*; do
     mongoimport --db pedestrain --collection pedestrain_by_time --jsonArray --batchSize 1 --upsertFields Year,Month,Day,hours --file "$file"
 done
 
+
