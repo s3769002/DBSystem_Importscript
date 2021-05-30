@@ -79,6 +79,9 @@ async function writeJSON(obj,count) {
     let loading = Math.floor(obj.length / 10);
     for (let i = 0, c = 0; i < obj.length; i++, c++) {
         let day = `${obj[i].Mdate}/${obj[i].Month}/${obj[i].Year}`;
+        // if (typeof obj[i].Mdate != "number") {
+        //     console.log(obj[i].Mdate,'This is not number');
+        // }
         if (yearObj[day] === undefined) {
             yearObj[day] = {};
         }
@@ -91,9 +94,12 @@ async function writeJSON(obj,count) {
         if (yearObj[day]["hours"][obj[i].Time]["sensors"] === undefined) {
             yearObj[day]["hours"][obj[i].Time]["sensors"] = [];
         }
+        if (yearObj[day]["hours"][obj[i].Time]["count"] === undefined) {
+            yearObj[day]["hours"][obj[i].Time]["count"] = 0;
+        }
         yearObj[day]["Year"] = obj[i].Year;
         yearObj[day]["Month"] = obj[i].Month;
-        yearObj[day]["Day"] = obj[i].Mdate;
+        yearObj[day]["Day"] = parseInt(obj[i].Mdate);
         yearObj[day]["DayOfWeek"] = obj[i].Day;
         // {
         //     "hour": "01",
@@ -107,8 +113,12 @@ async function writeJSON(obj,count) {
         // ],
         //     "count": "117"
         // }
-        yearObj[day]["hours"][obj[i].Time]["count"] = parseInt(obj[i].Hourly_Counts);
+        // if(!yearObj[day]["hours"][obj[i].Time]["count"] || yearObj[day]["hours"][obj[i].Time]["count"] == null){
+        //     console.log(yearObj[day]["hours"][obj[i].Time]["count"]);
+        // }
+        yearObj[day]["hours"][obj[i].Time]["count"] += parseInt(obj[i].Hourly_Counts);
         yearObj[day]["hours"][obj[i].Time]["hour"] = parseInt(obj[i].Time);
+        yearObj[day]["hours"][obj[i].Time]["date"] = `${day} ${obj[i].Time}`;
         yearObj[day]["hours"][obj[i].Time]["sensors"].push({
             "id": obj[i].ID,
             "sensorId": obj[i].Sensor_ID,
