@@ -2,4 +2,4 @@ const transformCsv = require('.') /* the current working directory so that means
 let input = process.argv[2] /* what the user enters as first argument */
 let output = process.argv[3] /* what the user enters as first argument */
 
-    transformCsv(input,output)
+    transformCsv(input)
